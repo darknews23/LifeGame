@@ -19,7 +19,7 @@ namespace Life.DAL.DatabaseFirst
         private readonly GameObjectsStepStateRepo _gameObjectsStepStateRepo;
         public List<EventSaver> EventSavers => _eventSavers ??= GetEventSavers();
         public static List<Type> EventSaverTypes => _eventSaverTypes ??= GetEventSaverTypes();
-        public static int GameSessionId { get; set; }
+        public static Guid GameSessionId { get; set; }
         public static int StepId { get; set; }
         public DatabaseEventRecordingProvider(IServiceProvider serviceProvider, 
             GameTilesRepo gameTilesRepo, GameObjectsStepStateRepo gameObjectsStepStateRepo)

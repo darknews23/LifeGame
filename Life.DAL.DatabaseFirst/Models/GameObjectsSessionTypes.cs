@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Life.DAL.DatabaseFirst.Models
 {
+    [Table("GameObjectsSessionTypes")]
     public partial class GameObjectsSessionTypes
     {
+        [Key]
+        [MaxLength(50)]
         public string TypeName { get; set; }
-        public int SessionId { get; set; }
+        [Key]
+        public Guid SessionId { get; set; }
         public int? InitialHp { get; set; }
         public int? MaxBirth { get; set; }
         public int? BirthTime { get; set; }

@@ -20,6 +20,7 @@ namespace Life.Core
         private readonly IEventRecorder _eventRecorder;
         private readonly NewGameSessionEvent _newGameSessionEvent;
         private readonly NewStepEvent _newStepEvent;
+        public Guid SessionId { get; }
         public static int GetGameObjectId => _gameObjectId++;
         public static GameStatus GameStatus { get; private set; }
         public static Random Random = new Random(DateTime.Now.Millisecond);
@@ -41,6 +42,7 @@ namespace Life.Core
         public GameSession(IMap map, MapGenerator mapGenerator, MapSeeder mapSeeder, MapIterator mapIterator,
             ILoggerFactory loggerFactory, IEventRecorder eventRecorder, NewGameSessionEvent newGameSessionEvent, NewStepEvent newStepEvent)
         {
+            SessionId = Guid.NewGuid();
             Map = map;
             _logger = loggerFactory.CreateLogger<GameSession>();
             _eventRecorder = eventRecorder;
@@ -60,7 +62,10 @@ namespace Life.Core
 
             GameStatus = GameStatus.Active;
 
+            _newGameSessionEvent.SessionId = SessionId;
+            _newGameSessionEvent.SessionStatus = GameStatus;
             _eventRecorder.Record(_newGameSessionEvent);
+
             _newStepEvent.StepNumber = StepCount;
             _newStepEvent.Tiles = Map.Tiles;
             _newStepEvent.GameObjects = Map.GameObjects;

@@ -1,4 +1,5 @@
-﻿using Life.DAL.DatabaseFirst.Models;
+﻿using System.Collections.Generic;
+using Life.DAL.DatabaseFirst.Models;
 
 namespace Life.DAL.DatabaseFirst.Repositories
 {
