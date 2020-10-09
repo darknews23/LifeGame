@@ -9,7 +9,7 @@ namespace Life.ConsoleApp
 {
     public class ConsoleMapRenderer : IRenderer
     {
-        public IMap Map { get; set; }
+        //public IMap Map { get; set; }
         public Dictionary<string, char> GameObjectSymbols => new Dictionary<string, char>()
         {
             {"Duck", 'D'},
@@ -35,19 +35,19 @@ namespace Life.ConsoleApp
 
         public void DrawMap(IGameSessionState gameSessionState, int stepNumber)
         {
-            Map = gameSessionState.Map;
+            var map = gameSessionState.Map;
             int n = 1;
             string border = "";
-            border = border.PadLeft(Map.WorldDimensions.X * 5, '-');
+            border = border.PadLeft(map.WorldDimensions.X * 5, '-');
 
             Console.Write($"\nMap at the start of step: {stepNumber}");
             Console.Write("\n" + border + "\n");
 
-            for (int y = Map.WorldDimensions.Y; y > 0; y--)
+            for (int y = map.WorldDimensions.Y; y > 0; y--)
             {
-                for (int x = 1; x < Map.WorldDimensions.X + 1; x++)
+                for (int x = 1; x < map.WorldDimensions.X + 1; x++)
                 {
-                    var selectedTile = Map.Tiles.First(tile =>
+                    var selectedTile = map.Tiles.First(tile =>
                         tile.Coordinates.Equals(new Coordinates(x, y)));
                     string objectsOnTile = $"{selectedTile.GameObjectsOnTile.Count}";
                     if (selectedTile.GameObjectsOnTile.Count == 1)
@@ -59,8 +59,8 @@ namespace Life.ConsoleApp
                             objectsOnTile = GameObjectSymbols[selected.GetType().Name].ToString();
                         }
                     }
-                    DrawTile(objectsOnTile, new Coordinates(x, y));
-                    if (n < Map.WorldDimensions.X)
+                    DrawTile(objectsOnTile, new Coordinates(x, y),map);
+                    if (n < map.WorldDimensions.X)
                     {
                         n++;
                     }
@@ -72,12 +72,12 @@ namespace Life.ConsoleApp
                 }
             }
         }
-        private void DrawTile(string objectsCount, Coordinates coordinates)
+        private void DrawTile(string objectsCount, Coordinates coordinates, IMap map)
         {
             var landSymbol = '=';
             var backgroundColor = ConsoleColor.Black;
             var foregroundColor = ConsoleColor.White;
-            var gameTile = Map.Tiles.First(tile => tile.Coordinates.Equals(coordinates));
+            var gameTile = map.Tiles.First(tile => tile.Coordinates.Equals(coordinates));
             if (AreaTypeSymbols.ContainsKey(gameTile.AreaType))
             {
                 landSymbol = AreaTypeSymbols[gameTile.AreaType];

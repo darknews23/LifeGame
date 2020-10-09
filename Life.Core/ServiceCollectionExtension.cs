@@ -5,7 +5,6 @@ using Life.Core.Events;
 using Life.Core.Interfaces;
 using Life.Core.MapObjects;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Life.Core
 {
@@ -14,11 +13,11 @@ namespace Life.Core
         public static IServiceCollection AddLifeGameCore(this IServiceCollection services)
         {
             services
-                .AddSingleton<IMap, Map>()
-                .AddSingleton<GameSession>()
-                .AddTransient<MapGenerator>()
-                .AddSingleton<MapSeeder>()
-                .AddSingleton<MapIterator>()
+                .AddScoped<IMap, Map>()
+                .AddTransient<GameSession>()
+                .AddScoped<MapGenerator>()
+                .AddScoped<MapSeeder>()
+                .AddScoped<MapIterator>()
                 .AddTransient<Coordinates>()
                 .AddGameObjects()
                 .AddActions()

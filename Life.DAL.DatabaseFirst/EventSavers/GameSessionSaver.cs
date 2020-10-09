@@ -24,7 +24,7 @@ namespace Life.DAL.DatabaseFirst.EventSavers
             if (eventObj is NewGameSessionEvent ev)
             {
                 _sessionsRepo.Create(new Sessions() {Created = ev.Created});
-                DatabaseEventRecordingProvider.GameSessionId = _sessionsRepo.Get().Last().Id;
+                DatabaseEventRecordingProvider.GameSessionId = _sessionsRepo.Get().Last().SessionId;
                 FillSessionData();
             }
             else

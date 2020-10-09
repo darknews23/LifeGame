@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "GameSessions";
+}
+
+@model GameSessionsViewModel
+
+<div class="text-center">
+    <p>GameSessions</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Session SessionId</th>
+            <th>Creation Date</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var session in Model.SessionsInfo)
+            {
+            <tr>
+                <td>@session.SessionId</td>
+                <td>@session.Created</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

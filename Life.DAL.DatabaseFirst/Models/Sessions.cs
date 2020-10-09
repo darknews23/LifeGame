@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Life.Core.Parameters;
 
 namespace Life.DAL.DatabaseFirst.Models
 {
+    [Table("Sessions")]
     public partial class Sessions
     {
         public Sessions()
@@ -11,9 +15,12 @@ namespace Life.DAL.DatabaseFirst.Models
             SessionTypesMoveTypes = new HashSet<SessionTypesMoveTypes>();
             Steps = new HashSet<Steps>();
         }
-
-        public int Id { get; set; }
+        [Key]
+        public Guid SessionId { get; set; }
+        [Required]
         public DateTime Created { get; set; }
+        [Required]
+        public int GameStatusId { get; set; }
 
         public virtual ICollection<SessionPartiallyEatableTypes> SessionPartiallyEatableTypes { get; set; }
         public virtual ICollection<SessionTypesMoveTypes> SessionTypesMoveTypes { get; set; }

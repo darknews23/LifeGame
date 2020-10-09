@@ -2,7 +2,7 @@
 {
     public interface IRenderer
     {
-        IMap Map { get; }
+        //IMap Map { get; }
         void DrawMap(IGameSessionState gameSessionState, int stepNumber);
     }
 }
