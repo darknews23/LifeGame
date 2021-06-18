@@ -4,6 +4,7 @@ using Life.Core.EventRecording;
 using Life.Core.Events;
 using Life.Core.Interfaces;
 using Life.Core.MapObjects;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Life.Core

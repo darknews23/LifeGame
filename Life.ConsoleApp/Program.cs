@@ -2,7 +2,7 @@
 using Life.ConsoleApp.Extensions;
 using Life.Core;
 using Life.Core.Interfaces;
-using Life.DAL.DatabaseFirst.Extensions;
+using Life.DAL.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 

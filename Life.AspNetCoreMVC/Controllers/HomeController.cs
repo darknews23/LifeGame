@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Life.AspNetCoreMVC.Models;
-using Life.DAL.DatabaseFirst.Repositories;
+using Life.DAL.Repositories;
 
 namespace Life.AspNetCoreMVC.Controllers
 {

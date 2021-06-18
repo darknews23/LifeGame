@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Life.Core;
 using Life.Core.Interfaces;
-using Life.DAL.DatabaseFirst.Extensions;
+using Life.DAL.Extensions;
+using Life.DAL.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,7 +35,9 @@ namespace Life.AspNetCoreMVC
                     .AddFile($@"{Environment.CurrentDirectory}\Logging\LifeGame - {{Date}}.log", LogLevel.Debug))
                 .AddLifeGameCore()
                 .AddEventRecorder(builder => builder
-                    .AddDatabaseEventRecordingProvider());
+                    .AddDatabaseEventRecordingProvider())
+                .AddDbContext<LifeGameDbContext>(options => 
+                    options.UseSqlServer(Configuration.GetConnectionString("LifeGameDb")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

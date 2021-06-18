@@ -23,7 +23,7 @@ namespace Life.Core
         public Guid SessionId { get; }
         public static int GetGameObjectId => _gameObjectId++;
         public static GameStatus GameStatus { get; private set; }
-        public static Random Random = new Random(DateTime.Now.Millisecond);
+        public static readonly Random Random = new Random(DateTime.Now.Millisecond);
         public IMap Map { get; }
 
         public static int StepCount
