@@ -16,14 +16,15 @@ namespace Life.DAL.Models
         }
 
         public virtual DbSet<Events> Events { get; set; }
-        public virtual DbSet<GameObjectsSessionTypes> GameObjectsSessionTypes { get; set; }
-        public virtual DbSet<GameObjectsStepState> GameObjectsStepState { get; set; }
-        public virtual DbSet<GameObjectsTypes> GameObjectsTypes { get; set; }
-        public virtual DbSet<GameTiles> GameTiles { get; set; }
+        public virtual DbSet<GoSessionTypes> GoSessionTypes { get; set; }
+        public virtual DbSet<GoStepStartState> GoStepStartState { get; set; }
+        public virtual DbSet<GoType> GoType { get; set; }
+        public virtual DbSet<GameTile> GameTiles { get; set; }
         public virtual DbSet<SessionPartiallyEatableTypes> SessionPartiallyEatableTypes { get; set; }
         public virtual DbSet<SessionTypesMoveTypes> SessionTypesMoveTypes { get; set; }
-        public virtual DbSet<Sessions> Sessions { get; set; }
-        public virtual DbSet<Steps> Steps { get; set; }
+        public virtual DbSet<Session> Sessions { get; set; }
+        public virtual DbSet<Step> Step { get; set; }
+        public virtual DbSet<GameObject> GameObject { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -48,106 +49,121 @@ namespace Life.DAL.Models
                     .HasForeignKey(d => d.StepId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Events_Steps");
+
+                entity.HasOne(x => x.ActorObject)
+                    .WithMany(x => x.PerformedEvents)
+                    .HasForeignKey(x => x.ActorObjectId)
+                    .HasConstraintName("FK_Events_ActorObject");
+
+                entity.HasOne(x => x.AffectedObject)
+                    .WithMany(x => x.AffectedByEvents)
+                    .HasForeignKey(x => x.AffectedObjectId)
+                    .HasConstraintName("FK_Events_AffectedObject");
             });
 
-            modelBuilder.Entity<GameObjectsSessionTypes>(entity =>
+            modelBuilder.Entity<GameObject>(entity =>
             {
-                entity.HasKey(e => new { e.TypeName, e.SessionId });
+                entity.HasKey(e => new { e.Id });
 
-                entity.Property(e => e.TypeName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.HasOne(x => x.Type)
+                    .WithMany(x => x.GameObjects)
+                    .HasForeignKey(x => x.TypeId)
+                    .HasConstraintName("FK_GameObject_GoType");
 
-                entity.HasOne(d => d.Type)
-                    .WithMany(p => p.GameObjectsSessionTypes)
-                    .HasForeignKey(d => d.TypeName)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_GameObjectsSessionTypes_GameObjectsTypes");
+                entity.HasOne(x => x.Session)
+                    .WithMany(x => x.GameObjects)
+                    .HasForeignKey(x => x.SessionId)
+                    .HasConstraintName("FK_GameObject_Session");
             });
 
-            modelBuilder.Entity<GameObjectsStepState>(entity =>
+            modelBuilder.Entity<GameTile>(entity =>
             {
-                entity.HasKey(e => new { e.GameObjectId, e.TypeName, e.StepId });
+                entity.HasKey(e => new { e.Id });
 
-                entity.Property(e => e.TypeName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.Step)
-                    .WithMany(p => p.GameObjectsStepState)
-                    .HasForeignKey(d => d.StepId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_GameObjectsStepState_Steps");
-                entity.HasOne(d => d.Type)
-                    .WithMany(p => p.GameObjectsStepState)
-                    .HasForeignKey(d => d.TypeName)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_GameObjectsStepState_GameObjectsTypes");
+                entity.HasOne(x => x.Session)
+                    .WithMany(x => x.GameTiles)
+                    .HasForeignKey(x => x.SessionId)
+                    .HasConstraintName("FK_GameTile_Session");
             });
 
-            modelBuilder.Entity<GameObjectsTypes>(entity =>
+            modelBuilder.Entity<GoSessionTypes>(entity =>
             {
-                entity.HasKey(e => e.TypeName);
+                entity.HasKey(e => new {e.GameObjectTypeId, e.SessionId});
 
-                entity.Property(e => e.TypeName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.HasOne(x => x.GoType)
+                    .WithMany(x => x.GameObjectsSessionTypes)
+                    .HasForeignKey(x => x.GameObjectTypeId)
+                    .HasConstraintName("FK_GoSessionTypes_GoType");
+
+                entity.HasOne(x => x.Session)
+                    .WithMany(x => x.GameObjectsSessionTypes)
+                    .HasForeignKey(x => x.SessionId)
+                    .HasConstraintName("FK_GoSessionTypes_Session");
             });
 
-            modelBuilder.Entity<GameTiles>(entity =>
+            modelBuilder.Entity<GoStepStartState>(entity =>
             {
-                entity.HasKey(e => new { e.StepId, e.X, e.Y })
-                    .HasName("PK_GameTiles_1");
+                entity.HasKey(e => new { e.GameObjectId, e.StepId });
 
-                entity.HasOne(d => d.Step)
-                    .WithMany(p => p.GameTiles)
-                    .HasForeignKey(d => d.StepId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_GameTiles_Steps");
+                entity.HasOne(x => x.GameObject)
+                    .WithMany(x => x.GoStepStartStates)
+                    .HasForeignKey(x => x.GameObjectId)
+                    .HasConstraintName("FK_GoStepStartState_GameObject");
+
+                entity.HasOne(x => x.Step)
+                    .WithMany(x => x.GOStepStartStates)
+                    .HasForeignKey(x => x.StepId)
+                    .HasConstraintName("FK_GoStepStartState_Step");
+            });
+
+            modelBuilder.Entity<GoType>(entity =>
+            {
+                entity.HasKey(e => new { e.Id });
+            });
+
+            modelBuilder.Entity<Session>(entity =>
+            {
+                entity.HasKey(e => new { e.Id });
             });
 
             modelBuilder.Entity<SessionPartiallyEatableTypes>(entity =>
             {
-                entity.HasKey(e => new { e.TypeName, e.SessionId });
+                entity.HasKey(e => new { e.GameObjectTypeId, e.SessionId });
 
-                entity.Property(e => e.TypeName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.HasOne(x => x.GoType)
+                    .WithMany(x => x.SessionPartiallyEatableTypes)
+                    .HasForeignKey(x => x.GameObjectTypeId)
+                    .HasConstraintName("FK_SessionPartiallyEatableTypes_GoType");
 
-                entity.HasOne(d => d.Session)
-                    .WithMany(p => p.SessionPartiallyEatableTypes)
-                    .HasForeignKey(d => d.SessionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SessionPartiallyEatableTypes_Sessions");
+                entity.HasOne(x => x.Session)
+                    .WithMany(x => x.SessionPartiallyEatableTypes)
+                    .HasForeignKey(x => x.SessionId)
+                    .HasConstraintName("FK_SessionPartiallyEatableTypes_Session");
             });
 
             modelBuilder.Entity<SessionTypesMoveTypes>(entity =>
             {
-                entity.HasKey(e => new { e.TypeName, e.MoveTypeId, e.SessionId });
+                entity.HasKey(e => new { e.GameObjectTypeId, e.SessionId });
 
-                entity.Property(e => e.TypeName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.HasOne(x => x.GoType)
+                    .WithMany(x => x.SessionTypesMoveTypes)
+                    .HasForeignKey(x => x.GameObjectTypeId)
+                    .HasConstraintName("FK_SessionTypesMoveTypes_GoType");
 
-                entity.HasOne(d => d.Session)
-                    .WithMany(p => p.SessionTypesMoveTypes)
-                    .HasForeignKey(d => d.SessionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SessionTypesMoveTypes_Sessions");
+                entity.HasOne(x => x.Session)
+                    .WithMany(x => x.SessionTypesMoveTypes)
+                    .HasForeignKey(x => x.SessionId)
+                    .HasConstraintName("FK_SessionTypesMoveTypes_Session");
             });
 
-            modelBuilder.Entity<Sessions>(entity =>
+            modelBuilder.Entity<Step>(entity =>
             {
-                entity.Property(e => e.Created).HasColumnType("datetime");
-            });
+                entity.HasKey(e => new { e.Id });
 
-            modelBuilder.Entity<Steps>(entity =>
-            {
-                entity.HasOne(d => d.Session)
-                    .WithMany(p => p.Steps)
-                    .HasForeignKey(d => d.SessionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Steps_Sessions");
+                entity.HasOne(x => x.Session)
+                    .WithMany(x => x.Steps)
+                    .HasForeignKey(x => x.SessionId)
+                    .HasConstraintName("FK_Step_Session");
             });
 
             OnModelCreatingPartial(modelBuilder);

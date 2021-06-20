@@ -1,15 +1,16 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Life.DAL.Models;
 
 namespace Life.DAL.Repositories
 {
-    public class StepsRepo : GenericRepository<Steps>
+    public class StepsRepo : GenericRepository<Step>
     {
         public StepsRepo(LifeGameDbContext dbContext) : base(dbContext)
         {
 
         }
-        public int GetStepId(int stepNumber)
+        public Guid GetStepId(int stepNumber)
         {
             return Get(x =>
                     x.SessionId == DatabaseEventRecordingProvider.GameSessionId &&

@@ -7,6 +7,7 @@ using Life.Core.MapObjects;
 using Life.DAL.EventSavers;
 using Life.DAL.Models;
 using Life.DAL.Repositories;
+using GameTile = Life.DAL.Models.GameTile;
 
 namespace Life.DAL
 {
@@ -16,17 +17,17 @@ namespace Life.DAL
         private readonly IServiceProvider _serviceProvider;
         private List<EventSaver> _eventSavers;
         private readonly GameTilesRepo _gameTilesRepo;
-        private readonly GameObjectsStepStateRepo _gameObjectsStepStateRepo;
+        private readonly GOStepStartStateRepo _goStepStartStateRepo;
         private List<EventSaver> EventSavers => _eventSavers ??= GetEventSavers();
         public static List<Type> EventSaverTypes => _eventSaverTypes ??= GetEventSaverTypes();
         public static Guid GameSessionId { get; set; }
-        public static int StepId { get; set; }
+        public static Guid StepId { get; set; }
         public DatabaseEventRecordingProvider(IServiceProvider serviceProvider, 
-            GameTilesRepo gameTilesRepo, GameObjectsStepStateRepo gameObjectsStepStateRepo)
+            GameTilesRepo gameTilesRepo, GOStepStartStateRepo goStepStartStateRepo)
         {
             _serviceProvider = serviceProvider;
             _gameTilesRepo = gameTilesRepo;
-            _gameObjectsStepStateRepo = gameObjectsStepStateRepo;
+            _goStepStartStateRepo = goStepStartStateRepo;
         }
         public void RecordEvent(IEvent eventObj)
         {
@@ -56,16 +57,16 @@ namespace Life.DAL
                 .Where(x => x.IsSubclassOf(typeof(EventSaver)) && !x.IsAbstract)
                 .ToList();
         }
-        private void FillGameTilesData(List<GameTile> tiles)
+        private void FillGameTilesData(List<Core.MapObjects.GameTileDto> tiles)
         {
-            List<GameTiles> items = new List<GameTiles>();
+            List<GameTile> items = new List<GameTile>();
             var stepId = StepId;
             foreach (var tile in tiles)
             {
-                items.Add(new GameTiles
+                items.Add(new GameTile
                 {
                     StepId = stepId,
-                    AreaTypeId = (int)tile.AreaType,
+                    AreaType = (int)tile.AreaType,
                     X = tile.Coordinates.X,
                     Y = tile.Coordinates.Y
                 });
@@ -74,20 +75,19 @@ namespace Life.DAL
         }
         private void FillGameObjectsStepStateData(List<GameObject> gameObjects)
         {
-            List<GameObjectsStepState> items = new List<GameObjectsStepState>();
+            List<GoStepStartState> items = new List<GoStepStartState>();
             var stepId = StepId;
             foreach (var gameObject in gameObjects)
             {
                 var objects = new List<GameObject> { gameObject };
-                var dataHolder = new GameObjectsStepState
+                var dataHolder = new GoStepStartState
                 {
                     GameObjectId = gameObject.Id,
                     StepId = stepId,
-                    TypeName = gameObject.GetType().Name,
                     X = gameObject.Coordinates.X,
                     Y = gameObject.Coordinates.Y,
                     Hp = gameObject.Hp,
-                    StatusId = (int)gameObject.Status,
+                    Status = (int)gameObject.Status,
                 };
                 if (objects.OfType<IGrowable>().Any())
                 {
@@ -97,13 +97,12 @@ namespace Life.DAL
                 if (objects.OfType<IGender>().Any())
                 {
                     var genderObj = objects.OfType<IGender>().Single();
-                    dataHolder.GenderTypeId = (int)genderObj.GenderType;
+                    dataHolder.GenderType = (int)genderObj.GenderType;
                     dataHolder.CurrentPregnancyTime = genderObj.CurrentPregnancyTime;
-                    dataHolder.IsPregnant = genderObj.IsPregnant;
                 }
                 items.Add(dataHolder);
             }
-            _gameObjectsStepStateRepo.Create(items);
+            _goStepStartStateRepo.Create(items);
         }
     }
 }

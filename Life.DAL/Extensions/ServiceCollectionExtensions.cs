@@ -24,7 +24,7 @@ namespace Life.DAL.Extensions
             return services
                 .AddSingleton<EventsRepo>()
                 .AddSingleton<GameObjectsSessionTypesRepo>()
-                .AddSingleton<GameObjectsStepStateRepo>()
+                .AddSingleton<GOStepStartStateRepo>()
                 .AddSingleton<SessionPartiallyEatableTypesRepo>()
                 .AddSingleton<GameObjectsTypesRepo>()
                 .AddSingleton<GameTilesRepo>()

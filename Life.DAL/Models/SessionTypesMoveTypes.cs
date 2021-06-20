@@ -1,22 +1,15 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Life.DAL.Models
 {
-    [Table("SessionTypesMoveTypes")]
     public partial class SessionTypesMoveTypes
     {
-        [Key]
-        [MaxLength(50)]
-        public string TypeName { get; set; }
-        [Key]
-        public int MoveTypeId { get; set; }
-        [Key]
+        public int GameObjectTypeId { get; set; }
         public Guid SessionId { get; set; }
-        [Required]
+        public int MoveType { get; set; }
         public int Speed { get; set; }
 
-        public virtual Sessions Session { get; set; }
+        public virtual Session Session { get; set; }
+        public virtual GoType GoType { get; set; }
     }
 }

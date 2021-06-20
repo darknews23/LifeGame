@@ -23,8 +23,8 @@ namespace Life.DAL.EventSavers
         {
             if (eventObj is NewGameSessionEvent ev)
             {
-                _sessionsRepo.Create(new Sessions() {Created = ev.Created});
-                DatabaseEventRecordingProvider.GameSessionId = _sessionsRepo.Get().Last().SessionId;
+                _sessionsRepo.Create(new Session() {Created = ev.Created});
+                DatabaseEventRecordingProvider.GameSessionId = _sessionsRepo.Get().Last().Id;
                 FillSessionData();
             }
             else
@@ -68,7 +68,7 @@ namespace Life.DAL.EventSavers
                     items.Add(new SessionTypesMoveTypes()
                     {
                         TypeName = movable.GetType().Name,
-                        MoveTypeId = (int) moveType,
+                        MoveType = (int) moveType,
                         SessionId = DatabaseEventRecordingProvider.GameSessionId,
                         Speed = speed
                     });
@@ -79,10 +79,10 @@ namespace Life.DAL.EventSavers
         }
         private void FillSessionTypesData(List<GameObject> gameObjects)
         {
-            var items = new List<GameObjectsSessionTypes>();
+            var items = new List<GoSessionTypes>();
             foreach (var gameObject in gameObjects)
             {
-                var item = new GameObjectsSessionTypes
+                var item = new GoSessionTypes
                 {
                     SessionId = DatabaseEventRecordingProvider.GameSessionId,
                     TypeName = gameObject.GetType().Name,

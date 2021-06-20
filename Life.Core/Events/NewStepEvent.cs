@@ -9,8 +9,8 @@ namespace Life.Core.Events
      {
          public override ActionType ActionType => ActionType.NewStep;
         public int StepNumber { get; set; }
-        public List<GameTile> Tiles { get; set; }
-        public List<GameObject> GameObjects { get; set; }
+        public List<GameTileDto> Tiles { get; set; }
+        public List<BaseGameObject> GameObjects { get; set; }
         public override string GetDescription()
         {
             var description =  $"Step {StepNumber}";

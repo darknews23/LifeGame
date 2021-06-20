@@ -8,11 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200918145701_tryingCodeFirst.cs" />
-    <Compile Remove="Migrations\20200918145701_tryingCodeFirst.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7">
       <PrivateAssets>all</PrivateAssets>
@@ -23,10 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Life.Core\Life.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>

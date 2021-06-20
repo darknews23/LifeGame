@@ -7,7 +7,7 @@ namespace Life.Core.Events
     public class MapGenerationEvent : Event
     {
         public override ActionType ActionType => ActionType.MapGeneration;
-        public List<GameTile> Tiles { get; set; }
+        public List<GameTileDto> Tiles { get; set; }
         public int StepNumber { get; set; }
         public override string GetDescription()
         {

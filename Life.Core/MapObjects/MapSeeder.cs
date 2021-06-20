@@ -39,28 +39,28 @@ namespace Life.Core.MapObjects
 
             _eventRecorder.Record(_gameObjectsCreationEvent);
         }
-        public static GameObject CreateObject(Type type, Coordinates coordinates)
+        public static BaseGameObject CreateObject(Type type, Coordinates coordinates)
         {
             if (!GameObjectTypes.Contains(type))
             {
                 throw new ArgumentException("No such type found", nameof(type));
             }
-            var gameObject = (GameObject) _serviceProvider.GetService(type);
+            var gameObject = (BaseGameObject) _serviceProvider.GetService(type);
             gameObject.Coordinates = coordinates;
             return gameObject;
             
         }
-        public static GameObject CreateObject(Type type)
+        public static BaseGameObject CreateObject(Type type)
         {
             return GameObjectTypes.Contains(type)
-                ? (GameObject) _serviceProvider.GetService(type)
+                ? (BaseGameObject) _serviceProvider.GetService(type)
                 : throw new ArgumentException("No such type found", nameof(type));
         }
         public static List<Type> GetGameObjectTypes()
         {
             return AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(x => x.GetTypes())
-                .Where(x => x.IsSubclassOf(typeof(GameObject)) && !x.IsAbstract)
+                .Where(x => x.IsSubclassOf(typeof(BaseGameObject)) && !x.IsAbstract)
                 .ToList();
         }
     }

@@ -6,13 +6,13 @@ namespace Life.DAL.EventSavers
     public abstract class ActionEventSaver : StepEventSaver
     {
         protected EventsRepo EventsRepo { get; }
-        protected GameObjectsStepStateRepo GameObjectsStepStateRepo { get; }
+        protected GOStepStartStateRepo GoStepStartStateRepo { get; }
 
         protected ActionEventSaver(LifeGameDbContext context, StepsRepo stepsRepo, EventsRepo eventsRepo,
-            GameObjectsStepStateRepo gameObjectsStepStateRepo) : base(context, stepsRepo)
+            GOStepStartStateRepo goStepStartStateRepo) : base(context, stepsRepo)
         {
             EventsRepo = eventsRepo;
-            GameObjectsStepStateRepo = gameObjectsStepStateRepo;
+            GoStepStartStateRepo = goStepStartStateRepo;
         }
     }
 }

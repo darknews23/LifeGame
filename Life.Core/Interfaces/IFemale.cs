@@ -9,7 +9,6 @@ namespace Life.Core.Interfaces
         int Id { get; }
         Coordinates Coordinates { get; set; }
         IMap Map { get; }
-        bool IsPregnant { get; set; }
         Status Status { get; set; }
         int BirthTime { get; }
         int MaxBirth { get; }

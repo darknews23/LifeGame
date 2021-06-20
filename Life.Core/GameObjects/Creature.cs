@@ -3,7 +3,7 @@ using Life.Core.Interfaces;
 
 namespace Life.Core.GameObjects
 {
-    public abstract class Creature : GameObject, IGrowable
+    public abstract class Creature : BaseGameObject, IGrowable
     {
         private readonly IGrowable _growable;
 

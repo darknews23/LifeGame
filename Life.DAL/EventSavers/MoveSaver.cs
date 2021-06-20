@@ -12,7 +12,7 @@ namespace Life.DAL.EventSavers
         public override Type SaveableEventType => typeof(MovementEvent);
 
         public MoveSaver(LifeGameDbContext context, StepsRepo stepsRepo, EventsRepo eventsRepo,
-            GameObjectsStepStateRepo gameObjectsStepStateRepo) : base(context, stepsRepo, eventsRepo, gameObjectsStepStateRepo)
+            GOStepStartStateRepo goStepStartStateRepo) : base(context, stepsRepo, eventsRepo, goStepStartStateRepo)
         {
 
         }
@@ -23,12 +23,12 @@ namespace Life.DAL.EventSavers
             {
                 EventsRepo.Create(new Events
                 {
-                    ActionId = (int)ev.ActionType,
+                    ActionType = (int)ev.ActionType,
                     StepId = DatabaseEventRecordingProvider.StepId,
-                    GameObjectId1 = ev.ActorId,
-                    DirectionId = (int)ev.Direction,
+                    ActorObjectId = ev.ActorId,
+                    Direction = (int)ev.Direction,
                     Distance = ev.Distance,
-                    MoveTypeId = (int)ev.MoveType
+                    MoveType = (int)ev.MoveType
                 });
             }
             else

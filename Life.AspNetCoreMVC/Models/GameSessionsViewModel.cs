@@ -8,6 +8,6 @@ namespace Life.AspNetCoreMVC.Models
 {
     public class GameSessionsViewModel
     {
-        public List<Sessions> SessionsInfo { get; set; }
+        public List<Session> SessionsInfo { get; set; }
     }
 }

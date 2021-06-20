@@ -10,8 +10,8 @@ namespace Life.Core.MapObjects
     public class Map : IMap
     {
         public Coordinates WorldDimensions { get; set; }
-        public List<GameTile> Tiles { get; }
-        public List<GameObject> GameObjects { get; }
+        public List<GameTileDto> Tiles { get; }
+        public List<BaseGameObject> GameObjects { get; }
         private Dictionary<AreaType, List<Coordinates>> _areaTypeCoordinates;
 
         public Dictionary<AreaType, List<Coordinates>> AreaTypeCoordinates
@@ -28,8 +28,8 @@ namespace Life.Core.MapObjects
 
         public Map()
         {
-            Tiles = new List<GameTile>();
-            GameObjects = new List<GameObject>();
+            Tiles = new List<GameTileDto>();
+            GameObjects = new List<BaseGameObject>();
             _areaTypeCoordinates = new Dictionary<AreaType, List<Coordinates>>(Enum.GetNames(typeof(AreaType)).Length);
         }
 

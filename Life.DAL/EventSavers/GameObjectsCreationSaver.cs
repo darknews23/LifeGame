@@ -15,7 +15,7 @@ namespace Life.DAL.EventSavers
         public override Type SaveableEventType => typeof(GameObjectsCreationEvent);
 
         public GameObjectsCreationSaver(LifeGameDbContext context, StepsRepo stepsRepo, EventsRepo eventsRepo, 
-            GameObjectsStepStateRepo gameObjectsStepStateRepo) : base(context, stepsRepo, eventsRepo, gameObjectsStepStateRepo)
+            GOStepStartStateRepo goStepStartStateRepo) : base(context, stepsRepo, eventsRepo, goStepStartStateRepo)
         {
 
         }
@@ -25,11 +25,11 @@ namespace Life.DAL.EventSavers
             if (eventObj is GameObjectsCreationEvent ev)
             {
                 var stepId = DatabaseEventRecordingProvider.StepId;
-                var items = new List<GameObjectsStepState>();
+                var items = new List<GoStepStartState>();
                 foreach (var gameObject in ev.GameObjects)
                 {
                     var objects = new List<GameObject> { gameObject };
-                    var dataHolder = new GameObjectsStepState
+                    var dataHolder = new GoStepStartState
                     {
                         GameObjectId = gameObject.Id,
                         StepId = stepId,
@@ -37,7 +37,7 @@ namespace Life.DAL.EventSavers
                         X = gameObject.Coordinates.X,
                         Y = gameObject.Coordinates.Y,
                         Hp = gameObject.Hp,
-                        StatusId = (int)gameObject.Status,
+                        Status = (int)gameObject.Status,
                     };
                     if (objects.OfType<IGrowable>().Any())
                     {
@@ -47,13 +47,13 @@ namespace Life.DAL.EventSavers
                     if (objects.OfType<IGender>().Any())
                     {
                         var genderObj = objects.OfType<IGender>().Single();
-                        dataHolder.GenderTypeId = (int)genderObj.GenderType;
+                        dataHolder.GenderType = (int)genderObj.GenderType;
                         dataHolder.CurrentPregnancyTime = genderObj.CurrentPregnancyTime;
                         dataHolder.IsPregnant = genderObj.IsPregnant;
                     }
                     items.Add(dataHolder);
                 }
-                GameObjectsStepStateRepo.Create(items);
+                GoStepStartStateRepo.Create(items);
             }
             else
             {

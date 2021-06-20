@@ -7,7 +7,7 @@ namespace Life.Core.Events
     public class GameObjectsCreationEvent : Event
     {
         public override ActionType ActionType => ActionType.GameObjectsCreation;
-        public List<GameObject> GameObjects { get; set; }
+        public List<BaseGameObject> GameObjects { get; set; }
         public int StepNumber { get; set; }
         public override string GetDescription()
         {

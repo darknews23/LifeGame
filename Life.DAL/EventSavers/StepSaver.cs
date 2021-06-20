@@ -20,7 +20,7 @@ namespace Life.DAL.EventSavers
         {
             if (eventObj is NewStepEvent ev)
             {
-                StepsRepo.Create(new Steps
+                StepsRepo.Create(new Step
                 {
                     SessionId = DatabaseEventRecordingProvider.GameSessionId,
                     Number = ev.StepNumber

@@ -5,16 +5,16 @@ using Life.Core.Parameters;
 
 namespace Life.Core.MapObjects
 {
-    public class GameTile : ICoordinate
+    public class GameTileDto : ICoordinate
     {
         public AreaType AreaType { get; }
         public Coordinates Coordinates { get; set; }
-        public List<GameObject> GameObjectsOnTile { get; set; }
-        public GameTile(AreaType areaType, Coordinates coordinates, List<GameObject> gameObjectsOnTile = null)
+        public List<BaseGameObject> GameObjectsOnTile { get; set; }
+        public GameTileDto(AreaType areaType, Coordinates coordinates, List<BaseGameObject> gameObjectsOnTile = null)
         {
             AreaType = areaType;
             Coordinates = coordinates;
-            GameObjectsOnTile = new List<GameObject>();
+            GameObjectsOnTile = new List<BaseGameObject>();
             if (gameObjectsOnTile != null)
             {
                 GameObjectsOnTile.AddRange(gameObjectsOnTile);

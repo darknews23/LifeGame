@@ -2,7 +2,7 @@
 
 namespace Life.DAL.Repositories
 {
-    public class SessionsRepo : GenericRepository<Sessions>
+    public class SessionsRepo : GenericRepository<Session>
     {
         public SessionsRepo(LifeGameDbContext dbContext) : base(dbContext)
         {

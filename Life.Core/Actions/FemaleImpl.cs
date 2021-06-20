@@ -90,7 +90,7 @@ namespace Life.Core.Actions
             _birthEvent.StepNumber = GameSession.StepCount;
             _birthEvent.ChildrenId = new List<int>();
 
-            _gameObjectsCreationEvent.GameObjects = new List<GameObject>();
+            _gameObjectsCreationEvent.GameObjects = new List<BaseGameObject>();
             _gameObjectsCreationEvent.StepNumber = GameSession.StepCount;
             for (int i = 0; i < randomBirthNumber; i++)
             {

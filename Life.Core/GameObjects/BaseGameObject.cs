@@ -6,7 +6,7 @@ using Life.Core.Parameters;
 
 namespace Life.Core.GameObjects
 {
-    public abstract class GameObject : ICoordinate, IIdentification, IHabitant
+    public abstract class BaseGameObject : ICoordinate, IIdentification, IHabitant
     {
         private int _hp;
         private Coordinates _coordinates;
@@ -34,7 +34,7 @@ namespace Life.Core.GameObjects
             }
         }
 
-        protected GameObject(IMap map, DeathEvent deathEvent, IEventRecorder eventRecorder)
+        protected BaseGameObject(IMap map, DeathEvent deathEvent, IEventRecorder eventRecorder)
         {
             Id = GameSession.GetGameObjectId;
             _deathEvent = deathEvent;

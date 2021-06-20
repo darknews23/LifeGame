@@ -5,7 +5,7 @@ using Life.Core.Parameters;
 
 namespace Life.Core.GameObjects.Other
 {
-    class Rock : GameObject, IObstacle
+    class Rock : BaseGameObject, IObstacle
     {
         public override List<AreaType> Habitat => new List<AreaType>()
         {

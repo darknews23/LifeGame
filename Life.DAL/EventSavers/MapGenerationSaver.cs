@@ -24,15 +24,15 @@ namespace Life.DAL.EventSavers
             if (eventObj is MapGenerationEvent ev)
             {
                 var stepId = DatabaseEventRecordingProvider.StepId;
-                List<GameTiles> items = new List<GameTiles>();
+                List<GameTile> items = new List<GameTile>();
                 foreach (var tile in ev.Tiles)
                 {
-                    items.Add(new GameTiles
+                    items.Add(new GameTile
                     {
                         StepId = stepId,
                         X = tile.Coordinates.X,
                         Y = tile.Coordinates.Y,
-                        AreaTypeId = (int)tile.AreaType
+                        AreaType = (int)tile.AreaType
                     });
                 }
 

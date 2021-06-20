@@ -12,8 +12,8 @@ namespace Life.DAL.EventSavers
         public override Type SaveableEventType => typeof(EatingEvent);
 
         public EatingSaver(LifeGameDbContext context, StepsRepo stepsRepo, EventsRepo eventsRepo,
-            GameObjectsStepStateRepo gameObjectsStepStateRepo)
-            : base(context, stepsRepo, eventsRepo, gameObjectsStepStateRepo)
+            GOStepStartStateRepo goStepStartStateRepo)
+            : base(context, stepsRepo, eventsRepo, goStepStartStateRepo)
         {
 
         }
@@ -24,11 +24,11 @@ namespace Life.DAL.EventSavers
             {
                 EventsRepo.Create(new Events()
                 {
-                    ActionId = (int)ev.ActionType,
+                    ActionType = (int)ev.ActionType,
                     StepId = DatabaseEventRecordingProvider.StepId,
-                    GameObjectId1 = ev.ActorId,
+                    ActorObjectId = ev.ActorId,
                     HpChange = ev.HpChange,
-                    GameObjectId2 = ev.VictimId
+                    AffectedObjectId = ev.VictimId
                 });
             }
             else

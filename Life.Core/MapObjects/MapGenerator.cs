@@ -40,7 +40,7 @@ namespace Life.Core.MapObjects
                         var randomAreaTypeIndex = GameSession.Random.Next(0, Enum.GetNames(typeof(AreaType)).Length);
                         if (_areaTypeCounts[randomAreaTypeIndex] > 0)
                         {
-                            Map.Tiles.Add(new GameTile((AreaType)randomAreaTypeIndex, new Coordinates(i, j)));
+                            Map.Tiles.Add(new GameTileDto((AreaType)randomAreaTypeIndex, new Coordinates(i, j)));
                             _areaTypeCounts[randomAreaTypeIndex]--;
                             break;
                         }

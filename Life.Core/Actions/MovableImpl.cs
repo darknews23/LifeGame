@@ -115,7 +115,7 @@ namespace Life.Core.Actions
 
             _logger.LogInformation(_stringBuilder.ToString());
         }
-        private GameTile GetTileInDirection(Direction direction) =>
+        private GameTileDto GetTileInDirection(Direction direction) =>
             MovableOwner.Map.Tiles.FirstOrDefault(x =>
                 x.Coordinates.Equals(_intermediatePlace.CloneWithOffset(DirectionToCoordinates[direction])));
 
@@ -126,7 +126,7 @@ namespace Life.Core.Actions
         }
 
         private Direction GetRandomDirection() => (Direction) GameSession.Random.Next(0, Enum.GetNames(typeof(Direction)).Length);
-        private bool CheckTileForSafety(GameTile tile) => MovableOwner.Habitat.Contains(tile.AreaType);
-        private bool CheckTileForObstacles(GameTile tile) => tile.GameObjectsOnTile.OfType<IObstacle>().Any();
+        private bool CheckTileForSafety(GameTileDto tileDto) => MovableOwner.Habitat.Contains(tileDto.AreaType);
+        private bool CheckTileForObstacles(GameTileDto tileDto) => tileDto.GameObjectsOnTile.OfType<IObstacle>().Any();
     }
 }
